@@ -11,6 +11,9 @@ public class PusherHandler extends AbstractHandler<Deque<Integer>> {
     super(next);
   }
 
+  public PusherHandler() {
+  }
+
   @Override
   public void handle(Deque<Integer> stack, String opertation) {
 

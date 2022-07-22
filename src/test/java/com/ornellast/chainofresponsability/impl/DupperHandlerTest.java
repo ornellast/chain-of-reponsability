@@ -81,7 +81,7 @@ public class DupperHandlerTest {
   }
 
   @Test
-  void should_notThrowIOE_when_stakOneElment() {
+  void should_notThrowIOE_when_stackOneElement() {
 
     // Given
     String operation = OPERATION;

@@ -12,6 +12,10 @@ public class PopperHandler extends AbstractHandler<Deque<Integer>> {
     super(next);
   }
 
+  public PopperHandler() {
+    super();
+  }
+
   private static final String OPERATION = "POP";
 
   @Override

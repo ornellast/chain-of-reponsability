@@ -12,6 +12,9 @@ public class DupperHandler extends AbstractHandler<Deque<Integer>> {
     super(next);
   }
 
+  public DupperHandler() {
+  }
+
   private static final String OPERATION = "DUP";
 
   @Override

@@ -10,6 +10,10 @@ public abstract class AbstractHandler<T> implements Handler<T> {
     this.next = next;
   }
 
+  protected AbstractHandler() {
+    super();
+  }
+
   @Override
   public Handler<T> getNext() {
     return this.next;

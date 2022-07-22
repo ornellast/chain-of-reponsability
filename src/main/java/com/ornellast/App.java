@@ -13,7 +13,6 @@ public class App {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
-
     // Run args: 6 5 DUP + POP 3 +
     // Result: 9
     public static void main(String[] args) {
@@ -33,7 +32,7 @@ public class App {
     private ProcessorsChain processorsChain;
 
     public App() {
-        processorsChain = new ProcessorsChain();
+        processorsChain = ProcessorsChain.builder().buildWithDefaultHandlers();
     }
 
     public int process(String s) {

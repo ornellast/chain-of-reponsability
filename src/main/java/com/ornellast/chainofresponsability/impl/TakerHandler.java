@@ -12,6 +12,9 @@ public class TakerHandler extends AbstractHandler<Deque<Integer>> {
     super(next);
   }
 
+  public TakerHandler() {
+  }
+
   private static final String OPERATION = "-";
 
   @Override

@@ -19,7 +19,7 @@ public class UnknowOperationHandlerTest {
 
   @BeforeEach
   public void instatiateDependencies() {
-    this.handler = new UnknowOperationHandler(null);
+    this.handler = new UnknowOperationHandler();
     this.stack = new ArrayDeque<>();
   }
 
@@ -28,7 +28,7 @@ public class UnknowOperationHandlerTest {
     // Given
 
     // New Hanlder
-    UnknowOperationHandler localHandler = new UnknowOperationHandler(new AdderHandler(null));
+    UnknowOperationHandler localHandler = new UnknowOperationHandler(new AdderHandler());
 
     // When
 
@@ -37,13 +37,13 @@ public class UnknowOperationHandlerTest {
   }
 
   @Test
-  public void should_neverHaveNext_when_setMethod() {
+  public void should_neverHaveNext_when_setNext() {
     // Given
 
     // default handler
 
     // When
-    handler.setNext(new AdderHandler(null));
+    handler.setNext(new AdderHandler());
 
     // Then
     assertNull(handler.getNext());

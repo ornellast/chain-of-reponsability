@@ -82,7 +82,7 @@ public class TakerHandlerTest {
   }
 
   @Test
-  void should_throwIOE_when_stakOneElment() {
+  void should_throwIOE_when_stackOneElement() {
 
     // Given
     String operation = OPERATION;

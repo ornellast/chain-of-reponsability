@@ -6,10 +6,13 @@ import com.ornellast.chainofresponsability.AbstractHandler;
 import com.ornellast.chainofresponsability.Handler;
 import com.ornellast.chainofresponsability.exception.InvalidOperationException;
 
-public class UnknowOperationHandler extends AbstractHandler<Deque<Integer>> {
+public final class UnknowOperationHandler extends AbstractHandler<Deque<Integer>> {
 
   public UnknowOperationHandler(Handler<Deque<Integer>> next) {
     super(null);
+  }
+
+  public UnknowOperationHandler() {
   }
 
   @Override

@@ -12,6 +12,9 @@ public class AdderHandler extends AbstractHandler<Deque<Integer>> {
     super(next);
   }
 
+  public AdderHandler() {
+  }
+
   private static final String OPERATION = "+";
 
   @Override
