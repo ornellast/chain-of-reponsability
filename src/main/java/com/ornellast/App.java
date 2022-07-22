@@ -25,8 +25,7 @@ public class App {
             sb.append(string + " ");
         }
 
-        LOGGER.info("The value is {}",
-                app.process(sb.toString()));
+        LOGGER.info("The value is {}",app.process(sb.toString()));
     }
 
     private ProcessorsChain processorsChain;
