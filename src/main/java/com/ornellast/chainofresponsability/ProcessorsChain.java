@@ -31,14 +31,22 @@ public class ProcessorsChain {
 
       if (head == null) {
         head = handler;
+        traverseHanlderUntilTail(handler);
       } else {
         tail.setNext(handler);
+        traverseHanlderUntilTail(handler);
       }
 
-      tail = handler;
       tail.setNext(null);
 
       return this;
+    }
+
+    private void traverseHanlderUntilTail(Handler<Deque<Integer>> handler) {
+      tail = handler;
+      while (tail.hasNext()) {
+        tail = tail.getNext();
+      }
     }
 
     public ProcessorsChain build() {

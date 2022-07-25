@@ -1,6 +1,7 @@
 package com.ornellast.chainofresponsability;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -13,6 +14,8 @@ import java.util.Deque;
 
 import org.junit.jupiter.api.Test;
 
+import com.ornellast.chainofresponsability.impl.AdderHandler;
+import com.ornellast.chainofresponsability.impl.DupperHandler;
 import com.ornellast.chainofresponsability.impl.PopperHandler;
 import com.ornellast.chainofresponsability.impl.PusherHandler;
 import com.ornellast.chainofresponsability.impl.UnknowOperationHandler;
@@ -59,7 +62,7 @@ public class ProcessorsChainTest {
     ProcessorsChain chain = ProcessorsChain.builder().withHandler(handlerMock).build();
     final Handler<Deque<Integer>> expected = chain.getHead();
 
-    // When - get the last handler
+    // When 
     final Handler<Deque<Integer>> actual = chain.getTail();
 
     // Then
@@ -73,7 +76,8 @@ public class ProcessorsChainTest {
     ProcessorsChain chain = ProcessorsChain.builder().withHandler(handlerMock).build();
     Deque<Integer> expectedStack = new ArrayDeque<>();
     String expectedOperation = "5";
-    // When - get the last handler
+
+    // When 
     chain.process(expectedStack, expectedOperation);
 
     // Then
@@ -85,7 +89,7 @@ public class ProcessorsChainTest {
     // Given
     Handler<Deque<Integer>> handler = new PusherHandler(new PopperHandler());
 
-    // When - get the last handler
+    // When 
     ProcessorsChain chainCreatedWithHandler = ProcessorsChain.builder().withHandler(handler).build();
     ProcessorsChain chainCreatedWithDefault = ProcessorsChain.builder().buildWithDefaultHandlers();
 
@@ -93,5 +97,53 @@ public class ProcessorsChainTest {
     assertAll(
         () -> assertNull(chainCreatedWithDefault.getTail().getNext()),
         () -> assertNull(chainCreatedWithHandler.getTail().getNext()));
+  }
+
+  @Test
+  public void should_handleTailCorrectly_when_chainAddedToWithHandler() {
+    // Given
+    Handler<Deque<Integer>> expectedTail = new PopperHandler();
+    Handler<Deque<Integer>> adder = new AdderHandler(expectedTail);
+    Handler<Deque<Integer>> dupper = new DupperHandler(adder);
+    Handler<Deque<Integer>> head = new PusherHandler();
+
+    // When 
+    ProcessorsChain chain = ProcessorsChain.builder()
+        .withHandler(head)
+        .withHandler(dupper)
+        .build();
+
+    // Then
+    assertSame(expectedTail, chain.getTail());
+  }
+
+  @Test
+  public void should_createChainRightOrder_when_handlersAddedToChain() {
+    // Given
+    Handler<Deque<Integer>> popper = new PopperHandler();
+    Handler<Deque<Integer>> adder = new AdderHandler(popper);
+    Handler<Deque<Integer>> dupper = new DupperHandler();
+    Handler<Deque<Integer>> head = new PusherHandler(dupper);
+
+    Class<?>[] expectedOrder = { PusherHandler.class, DupperHandler.class, AdderHandler.class, PopperHandler.class };
+
+    // When 
+    ProcessorsChain chain = ProcessorsChain.builder()
+        .withHandler(head)
+        .withHandler(adder)
+        .build();
+
+    short index = 0;
+    Class<?>[] actualOrder = new Class[expectedOrder.length];
+    Handler<Deque<Integer>> handler = chain.getHead();
+
+    actualOrder[index++] = handler.getClass();
+    while (handler.hasNext()) {
+      handler = handler.getNext();
+      actualOrder[index++] = handler.getClass();
+    }
+
+    // Then
+    assertArrayEquals(expectedOrder, actualOrder);
   }
 }
